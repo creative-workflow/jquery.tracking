@@ -98,7 +98,7 @@ If a parameter is passed the configuration will be merged otherwise the configur
 
 #### $.tracking.click(source)
 Track a click event. The source can be used to indicate what link was clicked.
- 
+
 #### $.tracking.event(category, action, label, value)
 Track an event. [Read more](developers.google.com/analytics/devguides/collection/analyticsjs/events)
 
@@ -119,7 +119,6 @@ Read the advertising campaign.
   * https://github.com/creative-workflow/jquery.tracking
   * https://travis-ci.org/creative-workflow/jquery.tracking
   * https://codeclimate.com/github/creative-workflow/jquery.tracking
-  * https://www.npmjs.com/package/jquery.tracking
   * http://bower.io/search/?q=jquery.tracking
 
 ### Authors

@@ -111,7 +111,7 @@ Read the advertising campaign.
 
 ### Dependencies
   * [jquery](https://jquery.com)
-  * [juery.debug](https://github.com/creative-workflow/jquery.debug)
+  * [jquery.debug](https://github.com/creative-workflow/jquery.debug)
   * [js-cookie](https://github.com/js-cookie/js-cookie)
   * [js-url](https://github.com/websanova/js-url)
 

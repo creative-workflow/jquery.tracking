@@ -21,11 +21,11 @@ We use the following tools for development:
 Install [NodeJS](http://nodejs.org/).  
 Install globally grunt-cli using the following command:
 
-    $ npm install -g grunt-cli
+    $ npm install -g grunt-cli bower
 
 Browse to the project root directory and install the dev dependencies:
 
-    $ npm install -d
+    $ npm install -d && bower install
 
 To execute the build and tests run the following command in the root of the project:
 

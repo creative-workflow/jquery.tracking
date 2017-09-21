@@ -1,6 +1,6 @@
 # jquery.tracking [![Build Status](https://travis-ci.org/creative-workflow/jquery.tracking.svg?branch=master)](https://travis-ci.org/creative-workflow/jquery.tracking) [![Code Climate](https://codeclimate.com/github/creative-workflow/jquery.tracking/badges/gpa.svg)](https://codeclimate.com/github/creative-workflow/jquery.tracking)
 
-This plugin helps to handle click and event tracking with google universal analytics ([Read more](https://developers.google.com/analytics/devguides/collection/analyticsjs/events)).
+This plugin helps to handle click and event tracking with google universal analytics ([Read more](developers.google.com/analytics/devguides/collection/analyticsjs/events)).
 
 You can implement your own tracking adapter, look at the implementation for [Google Analytics](https://github.com/creative-workflow/jquery.tracking/blob/master/src/jquery.tracking.ganalytics.coffee).
 
@@ -111,7 +111,7 @@ Read the advertising campaign.
 
 ### Dependencies
   * [jquery](https://jquery.com)
-  * [jquery.debug](https://github.com/creative-workflow/jquery.debug)
+  * [juery.debug](https://github.com/creative-workflow/jquery.debug)
   * [js-cookie](https://github.com/js-cookie/js-cookie)
   * [js-url](https://github.com/websanova/js-url)
 
@@ -119,11 +119,18 @@ Read the advertising campaign.
   * https://github.com/creative-workflow/jquery.tracking
   * https://travis-ci.org/creative-workflow/jquery.tracking
   * https://codeclimate.com/github/creative-workflow/jquery.tracking
-  * https://bower.io/search/?q=jquery.tracking
+  * http://bower.io/search/?q=jquery.tracking
 
 ### Authors
 
   [Tom Hanoldt](https://www.tomhanoldt.info)
+
+## Changelog
+### 1.0.2
+  * fix: swap setChannel and setCampaign in bootstrap
+
+### 1.0.1
+  * initial
 
 # Contributing
 

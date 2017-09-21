@@ -187,9 +187,9 @@
           if (value) {
             switch (param) {
               case _this.options.sourceParamName:
-                return _this.setCampaign(value);
-              case _this.options.campaignParamName:
                 return _this.setChannel(value);
+              case _this.options.campaignParamName:
+                return _this.setCampaign(value);
               default:
                 return _this.event('parameter', param, value);
             }

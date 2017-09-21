@@ -107,8 +107,8 @@ class @JqueryTracking
       value = Cookies.get("#{@options.cookiePrefix}#{param}") || fallback
       if value
         switch param
-          when @options.sourceParamName   then @setCampaign(value)
-          when @options.campaignParamName then @setChannel(value)
+          when @options.sourceParamName   then @setChannel(value)
+          when @options.campaignParamName then @setCampaign(value)
           else @event('parameter', param, value)
 
 

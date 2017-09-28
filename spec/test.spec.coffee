@@ -37,24 +37,24 @@ describe 'jquery.tracking', ->
           $.tracking.click('category', 'action', 'label', 'value')
 
           expect(oneAdapter.trackClick).toHaveBeenCalled()
-
-  describe "in debug mode", ->
-    oneAdapter = $.tracking.adapter[0]
-
-    describe 'event', ->
-      it "doesnt calls adapters trackEvent method", ->
-        $.debug(true)
-        spyOn(oneAdapter, "trackEvent").and.callThrough()
-
-        $.tracking.event('category', 'action', 'label', 'value')
-
-        expect(oneAdapter.trackEvent).not.toHaveBeenCalled()
-
-      describe 'click', ->
-        it "doesnt calls adapters trackClick method", ->
-          $.debug(true)
-          spyOn(oneAdapter, "trackClick").and.callThrough()
-
-          $.tracking.click('category', 'action', 'label', 'value')
-
-          expect(oneAdapter.trackClick).not.toHaveBeenCalled()
+  #
+  # describe "in debug mode", ->
+  #   oneAdapter = $.tracking.adapter[0]
+  #
+  #   describe 'event', ->
+  #     it "doesnt calls adapters trackEvent method", ->
+  #       $.debug(true)
+  #       spyOn(oneAdapter, "trackEvent").and.callThrough()
+  #
+  #       $.tracking.event('category', 'action', 'label', 'value')
+  #
+  #       expect(oneAdapter.trackEvent).not.toHaveBeenCalled()
+  #
+  #     describe 'click', ->
+  #       it "doesnt calls adapters trackClick method", ->
+  #         $.debug(true)
+  #         spyOn(oneAdapter, "trackClick").and.callThrough()
+  #
+  #         $.tracking.click('category', 'action', 'label', 'value')
+  #
+  #         expect(oneAdapter.trackClick).not.toHaveBeenCalled()

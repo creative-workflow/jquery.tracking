@@ -13,7 +13,7 @@
         "class": 'JqueryTrackingGAnalyticsAdapter'
       });
     });
-    describe("not in debug mode", function() {
+    return describe("not in debug mode", function() {
       var oneAdapter;
       oneAdapter = $.tracking.adapter[0];
       return describe('event', function() {
@@ -29,26 +29,6 @@
             spyOn(oneAdapter, "trackClick").and.callThrough();
             $.tracking.click('category', 'action', 'label', 'value');
             return expect(oneAdapter.trackClick).toHaveBeenCalled();
-          });
-        });
-      });
-    });
-    return describe("in debug mode", function() {
-      var oneAdapter;
-      oneAdapter = $.tracking.adapter[0];
-      return describe('event', function() {
-        it("doesnt calls adapters trackEvent method", function() {
-          $.debug(true);
-          spyOn(oneAdapter, "trackEvent").and.callThrough();
-          $.tracking.event('category', 'action', 'label', 'value');
-          return expect(oneAdapter.trackEvent).not.toHaveBeenCalled();
-        });
-        return describe('click', function() {
-          return it("doesnt calls adapters trackClick method", function() {
-            $.debug(true);
-            spyOn(oneAdapter, "trackClick").and.callThrough();
-            $.tracking.click('category', 'action', 'label', 'value');
-            return expect(oneAdapter.trackClick).not.toHaveBeenCalled();
           });
         });
       });

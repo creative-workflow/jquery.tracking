@@ -7,6 +7,7 @@
   this.JqueryTrackingGAnalyticsAdapter = (function() {
     function JqueryTrackingGAnalyticsAdapter(options1) {
       this.options = options1;
+      this.trackConversion = bind(this.trackConversion, this);
       this.trackClick = bind(this.trackClick, this);
       window.ga = window.ga || function() {
         return (ga.q = ga.q || []).push(arguments);
@@ -22,7 +23,52 @@
       return this.trackEvent('button', 'click', source);
     };
 
+    JqueryTrackingGAnalyticsAdapter.prototype.trackConversion = function() {
+      return this.trackEvent('advertsing', 'conversion');
+    };
+
     return JqueryTrackingGAnalyticsAdapter;
+
+  })();
+
+  this.JqueryTrackingFacebookAdapter = (function() {
+    function JqueryTrackingFacebookAdapter(options1) {
+      this.options = options1;
+    }
+
+    JqueryTrackingFacebookAdapter.prototype.trackEvent = function(category, action, label, value) {
+      if (typeof fbq === "undefined" || fbq === null) {
+        return;
+      }
+      return fbq('track', 'ViewContent', {
+        content_type: action,
+        content_name: label,
+        content_category: category,
+        value: value
+      });
+    };
+
+    JqueryTrackingFacebookAdapter.prototype.trackClick = function(source) {
+      if (typeof fbq === "undefined" || fbq === null) {
+        return;
+      }
+      return fbq('track', 'ViewContent', {
+        content_type: 'source'
+      });
+    };
+
+    JqueryTrackingFacebookAdapter.prototype.trackConversion = function() {
+      if ($.tracking.channel !== 'fb') {
+        return;
+      }
+      console.log('!!!FB tracked');
+      if (typeof fbq === "undefined" || fbq === null) {
+        return;
+      }
+      return fbq('track', 'Lead');
+    };
+
+    return JqueryTrackingFacebookAdapter;
 
   })();
 
@@ -41,6 +87,8 @@
       adapter: [
         {
           "class": 'JqueryTrackingGAnalyticsAdapter'
+        }, {
+          "class": 'JqueryTrackingFacebookAdapter'
         }
       ]
     };
@@ -51,6 +99,7 @@
       this.storeParams = bind(this.storeParams, this);
       this.setCampaign = bind(this.setCampaign, this);
       this.setChannel = bind(this.setChannel, this);
+      this.conversion = bind(this.conversion, this);
       this.click = bind(this.click, this);
       this.event = bind(this.event, this);
       this.remember = bind(this.remember, this);
@@ -74,7 +123,7 @@
 
     JqueryTracking.prototype.config = function(options) {
       if (options) {
-        this.options = jQuery.extend(this.options, options);
+        this.options = jQuery.extend(true, {}, this.options, options);
       }
       return this.options;
     };
@@ -95,7 +144,7 @@
           this.debug("loadAdapter", adapter["class"]);
           results.push(this.adapter.push(new window[adapter["class"]](adapter)));
         } else {
-          results.push(void 0);
+          results.push(this.debug("can not loadAdapter", adapter["class"]));
         }
       }
       return results;
@@ -123,9 +172,7 @@
       return jQuery.each(this.adapter, (function(_this) {
         return function(index, adapter) {
           _this.debug.apply(_this, [adapter.options["class"] + "::" + method].concat(slice.call(args)));
-          if (!jQuery.debug()) {
-            return adapter[method].apply(adapter, args);
-          }
+          return adapter[method].apply(adapter, args);
         };
       })(this));
     };
@@ -150,6 +197,10 @@
 
     JqueryTracking.prototype.click = function(source) {
       return this.callAdapters('trackClick', source);
+    };
+
+    JqueryTracking.prototype.conversion = function() {
+      return this.callAdapters('trackConversion');
     };
 
     JqueryTracking.prototype.setChannel = function(name) {

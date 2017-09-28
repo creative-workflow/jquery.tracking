@@ -1,4 +1,5 @@
 include "jquery.tracking.ganalytics.coffee"
+include "jquery.tracking.facebook.coffee"
 
 class @JqueryTracking
   @options =
@@ -14,6 +15,9 @@ class @JqueryTracking
     adapter: [
       {
         class: 'JqueryTrackingGAnalyticsAdapter'
+      },
+      {
+        class: 'JqueryTrackingFacebookAdapter'
       }
     ]
 
@@ -34,7 +38,7 @@ class @JqueryTracking
       @trackBounce(@options.trackBounceIntervalSeconds)
 
   config: (options) =>
-    @options = jQuery.extend(@options, options) if options
+    @options = jQuery.extend(true, {}, @options, options) if options
     @options
 
   debug: (label, args...) ->
@@ -45,6 +49,8 @@ class @JqueryTracking
       if adapter.class of window
         @debug("loadAdapter", adapter.class)
         @adapter.push new window[adapter.class](adapter)
+      else
+        @debug("can not loadAdapter", adapter.class)
 
   trackBounce: (durationInSeconds)=>
     timerCalled = 0
@@ -59,7 +65,7 @@ class @JqueryTracking
   callAdapters: (method, args...) =>
     jQuery.each @adapter, (index, adapter) =>
       @debug("#{adapter.options.class}::#{method}", args...)
-      adapter[method](args...) unless jQuery.debug()
+      adapter[method](args...) # unless jQuery.debug()
 
   wasAllreadyTracked: (name, value) =>
     id in @memory
@@ -78,6 +84,9 @@ class @JqueryTracking
 
   click: (source) =>
     @callAdapters('trackClick', source)
+
+  conversion: () =>
+    @callAdapters('trackConversion')
 
   setChannel: (name) =>
     @channel = name

@@ -11,10 +11,10 @@
 
 class @JqueryTrackingFacebookAdapter
   constructor:(@options, @controller) ->
-    
+
   trackEvent: (category, action, label, value) =>
     return unless @available()
-    window.fbq('track', 'trackCustom', {
+    window.fbq('trackCustom', 'CustomEvent', {
       category: category
       action: action
       label: label

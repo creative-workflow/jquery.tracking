@@ -77,7 +77,7 @@
       if (!this.available()) {
         return;
       }
-      return window.fbq('track', 'trackCustom', {
+      return window.fbq('trackCustom', 'CustomEvent', {
         category: category,
         action: action,
         label: label,

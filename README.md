@@ -121,6 +121,11 @@ Read the advertising campaign.
   * https://codeclimate.com/github/creative-workflow/jquery.tracking
   * http://bower.io/search/?q=jquery.tracking
 
+### Development
+  * `npm install`
+  * `bower install`
+  * `npm test`
+
 ### Authors
 
   [Tom Hanoldt](https://www.tomhanoldt.info)

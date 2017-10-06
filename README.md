@@ -122,9 +122,16 @@ Read the advertising campaign.
   * http://bower.io/search/?q=jquery.tracking
 
 ### Development
+##### Setup
   * `npm install`
   * `bower install`
   * `npm test`
+
+##### Run tests and linter
+  * `npm test`
+
+##### Generate build
+  * `npm run build`
 
 ### Authors
 

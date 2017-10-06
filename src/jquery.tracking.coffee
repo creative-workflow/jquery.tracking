@@ -4,7 +4,6 @@ include "adapter/jquery.tracking.facebook.coffee"
 
 class @JqueryTracking
   @options =
-    trackBounceIntervalSeconds: 10
     sessionLifeTimeDays: 1 #sync with google analytics session lifetime
     cookiePrefix:      'tracking_'
     cookiePath:        '.example.com'

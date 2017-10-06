@@ -5,7 +5,7 @@
     describe("configuration", function() {
       describe("trackBounceIntervalSeconds", function() {
         return it('can be changed', function() {
-          expect($.tracking().trackBounceIntervalSeconds).toBe(10);
+          expect($.tracking().trackBounceIntervalSeconds).toBe(void 0);
           expect($.tracking().trackBounceIntervalSeconds).not.toBe(42);
           $.tracking({
             trackBounceIntervalSeconds: 42

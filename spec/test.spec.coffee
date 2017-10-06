@@ -5,7 +5,7 @@ describe 'jquery.tracking', ->
   describe "configuration", ->
     describe "trackBounceIntervalSeconds", ->
       it 'can be changed', ->
-        expect($.tracking().trackBounceIntervalSeconds).toBe(10)
+        expect($.tracking().trackBounceIntervalSeconds).toBe(undefined)
 
         expect($.tracking().trackBounceIntervalSeconds).not.toBe(42)
 

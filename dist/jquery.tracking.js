@@ -72,7 +72,7 @@
       this.trackClick = bind(this.trackClick, this);
       this.trackEvent = bind(this.trackEvent, this);
       if (!this.available()) {
-        this.controller.debug('fb disabled -> "fbq" not loaded');
+        this.controller.debug('JqueryTrackingFacebookAdapter', '"fbq" not loaded');
       }
     }
 
@@ -128,8 +128,7 @@
       ]
     };
 
-    function JqueryTracking(options1) {
-      this.options = options1;
+    function JqueryTracking(options) {
       this.restorParams = bind(this.restorParams, this);
       this.storeParams = bind(this.storeParams, this);
       this.setCampaign = bind(this.setCampaign, this);
@@ -147,7 +146,8 @@
       this.memory = [];
       this.channel = '';
       this.campaign = '';
-      this.config(jQuery.extend(this.options, this.constructor.options));
+      this.options = this.constructor.options;
+      this.config(options);
       this.loadAdapter();
       this.storeParams();
       this.restorParams();

@@ -18,13 +18,14 @@ class @JqueryTracking
       }
     ]
 
-  constructor: (@options)->
+  constructor: (options)->
     @adapter = []
     @memory   = []
     @channel  = ''
     @campaign = ''
+    @options  = @constructor.options
 
-    @config jQuery.extend(@options, @constructor.options)
+    @config(options)
 
     @loadAdapter()
 

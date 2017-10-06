@@ -1,7 +1,15 @@
 # see: developers.google.com/analytics/devguides/collection/analyticsjs/events
 
+# $.tracking(
+#   adapter: [
+#       {
+#         class: 'JqueryTrackingGAnalyticsAdapter'
+#       }
+#     ]
+#   )
+
 class @JqueryTrackingGAnalyticsAdapter
-  constructor:(@options) ->
+  constructor:(@options, @controller) ->
     window.ga = window.ga || ->
       (ga.q = ga.q || []).push arguments
 

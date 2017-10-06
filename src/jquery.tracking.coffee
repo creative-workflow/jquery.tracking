@@ -1,5 +1,6 @@
-include "jquery.tracking.ganalytics.coffee"
-include "jquery.tracking.facebook.coffee"
+include "adapter/jquery.tracking.ganalytics.coffee"
+include "adapter/jquery.tracking.gtagmanager.coffee"
+include "adapter/jquery.tracking.facebook.coffee"
 
 class @JqueryTracking
   @options =
@@ -15,9 +16,6 @@ class @JqueryTracking
     adapter: [
       {
         class: 'JqueryTrackingGAnalyticsAdapter'
-      },
-      {
-        class: 'JqueryTrackingFacebookAdapter'
       }
     ]
 
@@ -48,7 +46,7 @@ class @JqueryTracking
     for adapter in @options.adapter
       if adapter.class of window
         @debug("loadAdapter", adapter.class)
-        @adapter.push new window[adapter.class](adapter)
+        @adapter.push new window[adapter.class](adapter, @)
       else
         @debug("can not loadAdapter", adapter.class)
 

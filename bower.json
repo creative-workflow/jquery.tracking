@@ -1,11 +1,11 @@
 {
   "name": "jquery.tracking",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/creative-workflow/jquery.tracking",
   "authors": [
-    "Tom Hanoldt <monotom@gmail.com>"
+    "Tom Hanoldt <tom@creative-workflow.berlin>"
   ],
-  "description": "This module helps to handle tracking clicks and events with google analytics.",
+  "description": "This module helps to handle tracking clicks and events with google analytics, tagmanager and facebook.",
   "main": "src/jquery.tracking.coffee",
   "moduleType": [
     "globals"
@@ -14,6 +14,8 @@
     "jquery",
     "tracking",
     "google analytics",
+    "google tagmanager",
+    "facebook pixel",
     "browser"
   ],
   "license": "MIT",

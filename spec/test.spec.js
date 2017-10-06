@@ -2,15 +2,41 @@
   describe('jquery.tracking', function() {
     var $;
     $ = jQuery;
-    it('can be configured', function() {
-      expect($.tracking().trackBounceIntervalSeconds).toBe(10);
-      expect($.tracking().trackBounceIntervalSeconds).not.toBe(42);
-      $.tracking({
-        trackBounceIntervalSeconds: 42
+    describe("configuration", function() {
+      describe("trackBounceIntervalSeconds", function() {
+        return it('can be changed', function() {
+          expect($.tracking().trackBounceIntervalSeconds).toBe(10);
+          expect($.tracking().trackBounceIntervalSeconds).not.toBe(42);
+          $.tracking({
+            trackBounceIntervalSeconds: 42
+          });
+          return expect($.tracking().trackBounceIntervalSeconds).toBe(42);
+        });
       });
-      expect($.tracking().trackBounceIntervalSeconds).toBe(42);
-      return expect($.tracking().adapter).toContain({
-        "class": 'JqueryTrackingGAnalyticsAdapter'
+      return describe("adapter", function() {
+        it('has a default adapter', function() {
+          return expect($.tracking().adapter).toContain({
+            "class": 'JqueryTrackingGAnalyticsAdapter'
+          });
+        });
+        return it('can be overridden', function() {
+          expect($.tracking().adapter).toContain({
+            "class": 'JqueryTrackingGAnalyticsAdapter'
+          });
+          $.tracking({
+            adapter: [
+              {
+                "class": 'JqueryTrackingGTagmanagerAdapter'
+              }
+            ]
+          });
+          expect($.tracking().adapter).not.toContain({
+            "class": 'JqueryTrackingGAnalyticsAdapter'
+          });
+          return expect($.tracking().adapter).toContain({
+            "class": 'JqueryTrackingGTagmanagerAdapter'
+          });
+        });
       });
     });
     describe("not in debug mode", function() {

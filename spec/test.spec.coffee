@@ -2,19 +2,44 @@
 describe 'jquery.tracking', ->
   $ = jQuery
 
-  it 'can be configured', ->
-    expect($.tracking().trackBounceIntervalSeconds).toBe(10)
+  describe "configuration", ->
+    describe "trackBounceIntervalSeconds", ->
+      it 'can be changed', ->
+        expect($.tracking().trackBounceIntervalSeconds).toBe(10)
 
-    expect($.tracking().trackBounceIntervalSeconds).not.toBe(42)
+        expect($.tracking().trackBounceIntervalSeconds).not.toBe(42)
 
-    $.tracking(
-      trackBounceIntervalSeconds: 42
-    )
-    expect($.tracking().trackBounceIntervalSeconds).toBe(42)
+        $.tracking(
+          trackBounceIntervalSeconds: 42
+        )
+        expect($.tracking().trackBounceIntervalSeconds).toBe(42)
 
-    expect($.tracking().adapter).toContain(
-      class: 'JqueryTrackingGAnalyticsAdapter'
-    )
+    describe "adapter", ->
+      it 'has a default adapter', ->
+        expect($.tracking().adapter).toContain(
+          class: 'JqueryTrackingGAnalyticsAdapter'
+        )
+
+      it 'can be overridden', ->
+        expect($.tracking().adapter).toContain(
+          class: 'JqueryTrackingGAnalyticsAdapter'
+        )
+
+        $.tracking(
+          adapter: [
+            {
+              class: 'JqueryTrackingGTagmanagerAdapter'
+            }
+          ]
+        )
+
+        expect($.tracking().adapter).not.toContain(
+          class: 'JqueryTrackingGAnalyticsAdapter'
+        )
+
+        expect($.tracking().adapter).toContain(
+          class: 'JqueryTrackingGTagmanagerAdapter'
+        )
 
 
   describe "not in debug mode", ->

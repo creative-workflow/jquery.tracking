@@ -5,8 +5,9 @@
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   this.JqueryTrackingGAnalyticsAdapter = (function() {
-    function JqueryTrackingGAnalyticsAdapter(options1) {
+    function JqueryTrackingGAnalyticsAdapter(options1, controller) {
       this.options = options1;
+      this.controller = controller;
       this.trackConversion = bind(this.trackConversion, this);
       this.trackClick = bind(this.trackClick, this);
       window.ga = window.ga || function() {
@@ -31,41 +32,78 @@
 
   })();
 
-  this.JqueryTrackingFacebookAdapter = (function() {
-    function JqueryTrackingFacebookAdapter(options1) {
+  this.JqueryTrackingGTagmanagerAdapter = (function() {
+    function JqueryTrackingGTagmanagerAdapter(options1, controller) {
       this.options = options1;
+      this.controller = controller;
+      this.trackConversion = bind(this.trackConversion, this);
+      this.trackClick = bind(this.trackClick, this);
+      window.dataLayer = window.dataLayer || [];
+    }
+
+    JqueryTrackingGTagmanagerAdapter.prototype.trackEvent = function(category, action, label, value) {
+      return window.dataLayer.push({
+        'event': 'gaEvent',
+        'eventCategory': category,
+        'eventAction': action,
+        'eventLabel': label,
+        'eventValue': value
+      });
+    };
+
+    JqueryTrackingGTagmanagerAdapter.prototype.trackClick = function(source) {
+      return this.trackEvent('button', 'click', source);
+    };
+
+    JqueryTrackingGTagmanagerAdapter.prototype.trackConversion = function() {
+      return this.trackEvent('advertsing', 'conversion');
+    };
+
+    return JqueryTrackingGTagmanagerAdapter;
+
+  })();
+
+  this.JqueryTrackingFacebookAdapter = (function() {
+    function JqueryTrackingFacebookAdapter(options1, controller) {
+      this.options = options1;
+      this.controller = controller;
+      this.available = bind(this.available, this);
+      this.trackConversion = bind(this.trackConversion, this);
+      this.trackClick = bind(this.trackClick, this);
+      this.trackEvent = bind(this.trackEvent, this);
+      if (!this.available()) {
+        this.controller.debug('fb disabled -> "fbq" not loaded');
+      }
     }
 
     JqueryTrackingFacebookAdapter.prototype.trackEvent = function(category, action, label, value) {
-      if (typeof fbq === "undefined" || fbq === null) {
+      if (!this.available()) {
         return;
       }
-      return fbq('track', 'ViewContent', {
-        content_type: action,
-        content_name: label,
-        content_category: category,
+      return window.fbq('track', 'trackCustom', {
+        category: category,
+        action: action,
+        label: label,
         value: value
       });
     };
 
     JqueryTrackingFacebookAdapter.prototype.trackClick = function(source) {
-      if (typeof fbq === "undefined" || fbq === null) {
-        return;
-      }
-      return fbq('track', 'ViewContent', {
-        content_type: 'source'
-      });
+      return this.trackEvent('button', 'click', source);
     };
 
     JqueryTrackingFacebookAdapter.prototype.trackConversion = function() {
-      if ($.tracking.channel !== 'fb') {
+      if (this.controller.channel !== this.options.facebookChannelName) {
         return;
       }
-      console.log('!!!FB tracked');
-      if (typeof fbq === "undefined" || fbq === null) {
+      if (!this.available()) {
         return;
       }
       return fbq('track', 'Lead');
+    };
+
+    JqueryTrackingFacebookAdapter.prototype.available = function() {
+      return window.fbq != null;
     };
 
     return JqueryTrackingFacebookAdapter;
@@ -87,8 +125,6 @@
       adapter: [
         {
           "class": 'JqueryTrackingGAnalyticsAdapter'
-        }, {
-          "class": 'JqueryTrackingFacebookAdapter'
         }
       ]
     };
@@ -142,7 +178,7 @@
         adapter = ref[i];
         if (adapter["class"] in window) {
           this.debug("loadAdapter", adapter["class"]);
-          results.push(this.adapter.push(new window[adapter["class"]](adapter)));
+          results.push(this.adapter.push(new window[adapter["class"]](adapter, this)));
         } else {
           results.push(this.debug("can not loadAdapter", adapter["class"]));
         }

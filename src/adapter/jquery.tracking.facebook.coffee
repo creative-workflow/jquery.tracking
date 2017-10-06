@@ -25,7 +25,7 @@ class @JqueryTrackingFacebookAdapter
     @trackEvent('button', 'click', source)
 
   trackConversion: =>
-    return unless @controller.channel == @options.facebookChannelName
+    return unless @controller.channel == @options.channelName
     return unless @available()
     fbq('track', 'Lead')
 

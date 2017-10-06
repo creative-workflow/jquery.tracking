@@ -90,7 +90,7 @@
     };
 
     JqueryTrackingFacebookAdapter.prototype.trackConversion = function() {
-      if (this.controller.channel !== this.options.facebookChannelName) {
+      if (this.controller.channel !== this.options.channelName) {
         return;
       }
       if (!this.available()) {

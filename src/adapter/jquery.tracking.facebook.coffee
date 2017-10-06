@@ -11,9 +11,7 @@
 
 class @JqueryTrackingFacebookAdapter
   constructor:(@options, @controller) ->
-    unless @available()
-      @controller.debug('JqueryTrackingFacebookAdapter','"fbq" not loaded')
-
+    
   trackEvent: (category, action, label, value) =>
     return unless @available()
     window.fbq('track', 'trackCustom', {
@@ -32,4 +30,7 @@ class @JqueryTrackingFacebookAdapter
     fbq('track', 'Lead')
 
   available: =>
+    unless window.fbq?
+      @controller.debug('JqueryTrackingFacebookAdapter','"fbq" not loaded')
+
     window.fbq?

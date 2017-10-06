@@ -112,7 +112,6 @@
 
   this.JqueryTracking = (function() {
     JqueryTracking.options = {
-      trackBounceIntervalSeconds: 10,
       sessionLifeTimeDays: 1,
       cookiePrefix: 'tracking_',
       cookiePath: '.example.com',

@@ -25,12 +25,19 @@ You can configure url parameters that should be stored in cookies and will be se
       storageParams: {
         'src': 'organic', //source, default: organic
         'cmp': 'organic' //campaign, default: organic
-      }
+      },
+      adapter: [
+        {
+          class: 'JqueryTrackingGAnalyticsAdapter'
+        }
+      ]
     });
 
     $.tracking.click('my fancy link'); //sends a click event (category: button, action: click)
 
     $.tracking.event('category', 'action', 'label', 'value', track_only_one_time=false); //sends natural event
+
+    $.tracking.conversion()
 
 It also exposes the class `JQueryTracking` for manual instantiating.
 
@@ -45,37 +52,44 @@ It also exposes the class `JQueryTracking` for manual instantiating.
       storageParams:
         'src': 'organic'
         'cmp': 'organic'
+      adapter: [
+        {
+          class: 'JqueryTrackingGAnalyticsAdapter'
+        }
+      ]
 
     $.tracking.click('my fancy link') # sends a click event (category: button, action: click)
 
     $.tracking.event('category', 'action', 'label', 'value', track_only_one_time = false) # sends natural event
 
+    $.tracking.conversion()
+
 It also exposes the class `JQueryTracking` for manual instantiating and extending.
 
 ### Parameter
-##### trackBounceIntervalSeconds: 10
+#### trackBounceIntervalSeconds: 10
 Bounce rate adjustment by sending an event in a given interval.
 
 Event
   * category: bounce rate adjustment
   * action: 10s | 20s | 30s | etc.
 
-##### sessionLifeTimeDays: 1
+#### sessionLifeTimeDays: 1
 Lifetime of the cookies. Should be in sync with google analytics [session time out](https://support.google.com/analytics/answer/2795871?hl=en).
 
-##### cookiePrefix: 'tracking_'
+#### cookiePrefix: 'tracking_'
 Prefix for the cookies. The `src` storage param will be saved in a cookie named `tracking_src`.
 
-##### cookiePath: '.example.com'
+#### cookiePath: '.example.com'
 Path for the cookies. The trailing dot means that the cookies are valid for the domain and all subdomains.
 
-##### sourceParamName: 'src'
+#### sourceParamName: 'src'
 Name of the source url parameter. You can read this value via `$.tracking.source`.
 
-##### campaignParamName: 'cmp'
+#### campaignParamName: 'cmp'
 Name of the campaign url parameter. You can read this value via `$.tracking.campaign`.
 
-##### storageParams:
+#### storageParams:
 Parameters that should be stored in cookies and will be send on every page initialization even when the url parameters are not present.
 
 Event on page initialization:
@@ -83,8 +97,8 @@ Event on page initialization:
   * action: name of the parameter
   * label: value of the parameter
 
-##### adapter
-The tracking adapters that should be loaded. You can pass you own adapter by extending the configuration:
+#### adapter
+Tracking adapters that could be loaded. You can pass you own adapter by extending the configuration:
 
     adapter: [
       {
@@ -101,14 +115,21 @@ The tracking adapters that should be loaded. You can pass you own adapter by ext
     ]
 
 ### Functions
-##### $.tracking(configuration|null)
+#### $.tracking(configuration|null)
 If a parameter is passed the configuration will be merged otherwise the configuration will be returned.
 
-##### $.tracking.click(source)
+#### $.tracking.click(source)
 Track a click event. The source can be used to indicate what link was clicked.
 
-##### $.tracking.event(category, action, label, value)
+#### $.tracking.event(category, action, label, value)
 Track an event. [Read more](developers.google.com/analytics/devguides/collection/analyticsjs/events)
+
+
+#### $.tracking.conversion()
+Track an Conversion. For details look at the adapter:
+  * [JqueryTrackingGAnalyticsAdapter](https://github.com/creative-workflow/jquery.tracking/blob/master/src/adapter/jquery.tracking.ganalytics.coffee)
+  * [JqueryTrackingGTagmanagerAdapter](https://github.com/creative-workflow/jquery.tracking/blob/master/src/adapter/jquery.tracking.gtagmanager.coffee)
+  * [JqueryTrackingFacebookAdapter](https://github.com/creative-workflow/jquery.tracking/blob/master/src/adapter/jquery.tracking.facebook.coffee)
 
 ### Variables
 #### $.tracking.channel
@@ -130,15 +151,15 @@ Read the advertising campaign.
   * http://bower.io/search/?q=jquery.tracking
 
 ### Development
-##### Setup
+#### Setup
   * `npm install`
   * `bower install`
   * `npm test`
 
-##### Run tests and linter
+#### Run tests and linter
   * `npm test`
 
-##### Generate build
+#### Generate build
   * `npm run build`
 
 ### Authors

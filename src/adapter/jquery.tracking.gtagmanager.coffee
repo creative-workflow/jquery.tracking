@@ -1,4 +1,5 @@
 # see: https://productforums.google.com/forum/#!topic/tag-manager/EdC7TVyaCMw
+# https://zadroweb.com/gtm-data-layer-event-tracking-guide/
 
 # $.tracking(
 #   adapter: [

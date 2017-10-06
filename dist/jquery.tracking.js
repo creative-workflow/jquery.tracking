@@ -90,12 +90,17 @@
     };
 
     JqueryTrackingFacebookAdapter.prototype.trackConversion = function() {
+      console.log(this.controller.channel, '==', this.options.channelName);
       if (this.controller.channel !== this.options.channelName) {
         return;
       }
       if (!this.available()) {
         return;
       }
+      return this._trackConversion();
+    };
+
+    JqueryTrackingFacebookAdapter.prototype._trackConversion = function() {
       return fbq('track', 'Lead');
     };
 

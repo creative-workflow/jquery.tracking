@@ -59,45 +59,93 @@ describe 'jquery.tracking', ->
         it "has a trackConversion method", ->
            expect(adapter.trackConversion).not.toThrowError()
 
+      describe "JqueryTrackingFacebookAdapter", ->
+        describe "trackConversion", ->
+          window['fbq'] = ->
+            null
+            
+          adapter = new window['JqueryTrackingFacebookAdapter']({
+            class: 'JqueryTrackingFacebookAdapter'
+            channelName: 'fb'
+          }, $.tracking.instance)
 
-  describe "not in debug mode", ->
-    $.tracking($.tracking.constructor.options) # reset configuration
-    oneAdapter = $.tracking.adapter[0]
+          it "doesnt call _trackConversion if channel is unequal fb", ->
+            $.tracking.setChannel('not fb')
 
-    describe 'event', ->
-      it "calls adapters trackEvent method", ->
-        $.debug(false)
-        spyOn(oneAdapter, "trackEvent").and.callThrough()
+            spyOn(adapter, "_trackConversion").and.callThrough()
+            adapter.trackConversion()
+            expect(adapter._trackConversion).not.toHaveBeenCalled()
 
-        $.tracking.event('category', 'action', 'label', 'value')
+          it "calls _trackConversion if channel equals fb", ->
+            $.tracking.setChannel('fb')
 
-        expect(oneAdapter.trackEvent).toHaveBeenCalled()
+            spyOn(adapter, "_trackConversion").and.callThrough()
+            adapter.trackConversion()
+            expect(adapter._trackConversion).toHaveBeenCalled()
 
-    describe 'click', ->
-      it "calls adapters trackClick method", ->
-        $.debug(false)
-        spyOn(oneAdapter, "trackClick").and.callThrough()
+  describe "controller", ->
+    describe "callAdapters", ->
+      it "calls the trackConversion method on all adapter", ->
+        options = $.tracking.instance.constructor.options
+        options['adapter'] = [
+          {
+            class: 'JqueryTrackingGTagmanagerAdapter'
+          },
+          {
+            class: 'JqueryTrackingFacebookAdapter'
+            channelName: 'fb'
+          }
+        ]
 
-        $.tracking.click('category', 'action', 'label', 'value')
+        $.tracking(options) # set configuration
 
-        expect(oneAdapter.trackClick).toHaveBeenCalled()
+        spyOn($.tracking.instance.adapter[0], "trackConversion").and.callThrough()
+        spyOn($.tracking.instance.adapter[1], "trackConversion").and.callThrough()
 
-      it "doesnt call console.log method", ->
-        $.debug(false)
-        spyOn(console, "log").and.callThrough()
+        $.tracking.conversion()
 
-        $.tracking.click('category', 'action', 'label', 'value')
+        expect($.tracking.instance.adapter[0].trackConversion).toHaveBeenCalled()
+        expect($.tracking.instance.adapter[1].trackConversion).toHaveBeenCalled()
 
-        expect(console.log).not.toHaveBeenCalled()
 
-  describe "in debug mode", ->
-    oneAdapter = $.tracking.adapter[0]
+    describe "not in debug mode", ->
+      $.tracking($.tracking.instance.constructor.options) # reset configuration
+      oneAdapter = $.tracking.adapter[0]
 
-    describe 'click', ->
-      it "calls console.log method", ->
-        $.debug(true)
-        spyOn(console, "log").and.callThrough()
+      describe 'event', ->
+        it "calls adapters trackEvent method", ->
+          $.debug(false)
+          spyOn(oneAdapter, "trackEvent").and.callThrough()
 
-        $.tracking.click('category', 'action', 'label', 'value')
+          $.tracking.event('category', 'action', 'label', 'value')
 
-        expect(console.log).toHaveBeenCalled()
+          expect(oneAdapter.trackEvent).toHaveBeenCalled()
+
+      describe 'click', ->
+        it "calls adapters trackClick method", ->
+          $.debug(false)
+          spyOn(oneAdapter, "trackClick").and.callThrough()
+
+          $.tracking.click('category', 'action', 'label', 'value')
+
+          expect(oneAdapter.trackClick).toHaveBeenCalled()
+
+        it "doesnt call console.log method", ->
+          $.debug(false)
+          spyOn(console, "log").and.callThrough()
+
+          $.tracking.click('category', 'action', 'label', 'value')
+
+          expect(console.log).not.toHaveBeenCalled()
+
+    describe "in debug mode", ->
+      oneAdapter = $.tracking.adapter[0]
+
+      describe 'click', ->
+        it "calls console.log method", ->
+          $.debug(true)
+          spyOn(console, "log").and.callThrough()
+
+          $.tracking.click('category', 'action', 'label', 'value')
+
+          expect(console.log).toHaveBeenCalled()

@@ -41,6 +41,24 @@ describe 'jquery.tracking', ->
           class: 'JqueryTrackingGTagmanagerAdapter'
         )
 
+  describe "adapter", ->
+    for adapter in [
+      'JqueryTrackingGAnalyticsAdapter'
+      'JqueryTrackingGTagmanagerAdapter'
+      'JqueryTrackingFacebookAdapter'
+    ]
+      describe "#{adapter}", ->
+        adapter = new window[adapter](adapter, $.tracking.instance)
+
+        it "has a trackClick method", ->
+           expect(adapter.trackClick).not.toThrowError()
+
+        it "has a trackEvent method", ->
+           expect(adapter.trackEvent).not.toThrowError()
+
+        it "has a trackConversion method", ->
+           expect(adapter.trackConversion).not.toThrowError()
+
 
   describe "not in debug mode", ->
     oneAdapter = $.tracking.adapter[0]

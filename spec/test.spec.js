@@ -39,6 +39,27 @@
         });
       });
     });
+    describe("adapter", function() {
+      var adapter, i, len, ref, results;
+      ref = ['JqueryTrackingGAnalyticsAdapter', 'JqueryTrackingGTagmanagerAdapter', 'JqueryTrackingFacebookAdapter'];
+      results = [];
+      for (i = 0, len = ref.length; i < len; i++) {
+        adapter = ref[i];
+        results.push(describe("" + adapter, function() {
+          adapter = new window[adapter](adapter, $.tracking.instance);
+          it("has a trackClick method", function() {
+            return expect(adapter.trackClick).not.toThrowError();
+          });
+          it("has a trackEvent method", function() {
+            return expect(adapter.trackEvent).not.toThrowError();
+          });
+          return it("has a trackConversion method", function() {
+            return expect(adapter.trackConversion).not.toThrowError();
+          });
+        }));
+      }
+      return results;
+    });
     describe("not in debug mode", function() {
       var oneAdapter;
       oneAdapter = $.tracking.adapter[0];

@@ -147,14 +147,17 @@
       this.channel = '';
       this.campaign = '';
       this.options = this.constructor.options;
+    }
+
+    JqueryTracking.prototype.init = function(options) {
       this.config(options);
       this.loadAdapter();
       this.storeParams();
       this.restorParams();
       if (this.options.trackBounceIntervalSeconds) {
-        this.trackBounce(this.options.trackBounceIntervalSeconds);
+        return this.trackBounce(this.options.trackBounceIntervalSeconds);
       }
-    }
+    };
 
     JqueryTracking.prototype.config = function(options) {
       if (options) {
@@ -298,7 +301,7 @@
         if (!args.length) {
           return instance.config();
         }
-        return instance.config(args[0]);
+        return instance.init(args[0]);
       }
     });
     $.extend($.tracking, instance);

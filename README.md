@@ -92,6 +92,12 @@ Name of the campaign url parameter. You can read this value via `$.tracking.camp
 #### storageParams:
 Parameters that should be stored in cookies and will be send on every page initialization even when the url parameters are not present.
 
+```
+storageParams:
+  'src': 'organic' # default organic, if no initial url param present
+  'cmp': 'organic' # default organic, if no initial url param present
+```
+
 Channel-Event on page initialization:
   * category: advertising
   * action: channel

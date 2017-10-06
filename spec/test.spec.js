@@ -62,27 +62,28 @@
     });
     describe("not in debug mode", function() {
       var oneAdapter;
+      $.tracking($.tracking.constructor.options);
       oneAdapter = $.tracking.adapter[0];
-      return describe('event', function() {
-        it("calls adapters trackEvent method", function() {
+      describe('event', function() {
+        return it("calls adapters trackEvent method", function() {
           $.debug(false);
           spyOn(oneAdapter, "trackEvent").and.callThrough();
           $.tracking.event('category', 'action', 'label', 'value');
           return expect(oneAdapter.trackEvent).toHaveBeenCalled();
         });
-        return describe('click', function() {
-          it("calls adapters trackClick method", function() {
-            $.debug(false);
-            spyOn(oneAdapter, "trackClick").and.callThrough();
-            $.tracking.click('category', 'action', 'label', 'value');
-            return expect(oneAdapter.trackClick).toHaveBeenCalled();
-          });
-          return it("doesnt calls console.log method", function() {
-            $.debug(false);
-            spyOn(console, "log").and.callThrough();
-            $.tracking.click('category', 'action', 'label', 'value');
-            return expect(console.log).not.toHaveBeenCalled();
-          });
+      });
+      return describe('click', function() {
+        it("calls adapters trackClick method", function() {
+          $.debug(false);
+          spyOn(oneAdapter, "trackClick").and.callThrough();
+          $.tracking.click('category', 'action', 'label', 'value');
+          return expect(oneAdapter.trackClick).toHaveBeenCalled();
+        });
+        return it("doesnt call console.log method", function() {
+          $.debug(false);
+          spyOn(console, "log").and.callThrough();
+          $.tracking.click('category', 'action', 'label', 'value');
+          return expect(console.log).not.toHaveBeenCalled();
         });
       });
     });

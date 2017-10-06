@@ -25,6 +25,7 @@ class @JqueryTracking
     @campaign = ''
     @options  = @constructor.options
 
+  init: (options) ->
     @config(options)
 
     @loadAdapter()
@@ -124,8 +125,8 @@ if typeof jQuery != 'undefined'
   $        = jQuery
   $.extend tracking: (args...)->
     return instance.config() unless args.length
-
-    instance.config(args[0])
+    
+    instance.init(args[0])
 
   #for calling instance methods directly
   $.extend $.tracking, instance

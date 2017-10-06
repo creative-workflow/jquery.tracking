@@ -61,6 +61,7 @@ describe 'jquery.tracking', ->
 
 
   describe "not in debug mode", ->
+    $.tracking($.tracking.constructor.options) # reset configuration
     oneAdapter = $.tracking.adapter[0]
 
     describe 'event', ->
@@ -72,22 +73,22 @@ describe 'jquery.tracking', ->
 
         expect(oneAdapter.trackEvent).toHaveBeenCalled()
 
-      describe 'click', ->
-        it "calls adapters trackClick method", ->
-          $.debug(false)
-          spyOn(oneAdapter, "trackClick").and.callThrough()
+    describe 'click', ->
+      it "calls adapters trackClick method", ->
+        $.debug(false)
+        spyOn(oneAdapter, "trackClick").and.callThrough()
 
-          $.tracking.click('category', 'action', 'label', 'value')
+        $.tracking.click('category', 'action', 'label', 'value')
 
-          expect(oneAdapter.trackClick).toHaveBeenCalled()
+        expect(oneAdapter.trackClick).toHaveBeenCalled()
 
-        it "doesnt calls console.log method", ->
-          $.debug(false)
-          spyOn(console, "log").and.callThrough()
+      it "doesnt call console.log method", ->
+        $.debug(false)
+        spyOn(console, "log").and.callThrough()
 
-          $.tracking.click('category', 'action', 'label', 'value')
+        $.tracking.click('category', 'action', 'label', 'value')
 
-          expect(console.log).not.toHaveBeenCalled()
+        expect(console.log).not.toHaveBeenCalled()
 
   describe "in debug mode", ->
     oneAdapter = $.tracking.adapter[0]

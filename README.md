@@ -92,10 +92,15 @@ Name of the campaign url parameter. You can read this value via `$.tracking.camp
 #### storageParams:
 Parameters that should be stored in cookies and will be send on every page initialization even when the url parameters are not present.
 
-Event on page initialization:
-  * category: parameter
-  * action: name of the parameter
-  * label: value of the parameter
+Channel-Event on page initialization:
+  * category: advertising
+  * action: channel
+  * label: organic
+
+Campaign-Event on page initialization:
+  * category: advertising
+  * action: campaign
+  * label: organic
 
 #### adapter
 Tracking adapters that could be loaded. You can pass you own adapter by extending the configuration:

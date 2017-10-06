@@ -71,9 +71,6 @@
       this.trackConversion = bind(this.trackConversion, this);
       this.trackClick = bind(this.trackClick, this);
       this.trackEvent = bind(this.trackEvent, this);
-      if (!this.available()) {
-        this.controller.debug('JqueryTrackingFacebookAdapter', '"fbq" not loaded');
-      }
     }
 
     JqueryTrackingFacebookAdapter.prototype.trackEvent = function(category, action, label, value) {
@@ -103,6 +100,9 @@
     };
 
     JqueryTrackingFacebookAdapter.prototype.available = function() {
+      if (window.fbq == null) {
+        this.controller.debug('JqueryTrackingFacebookAdapter', '"fbq" not loaded');
+      }
       return window.fbq != null;
     };
 

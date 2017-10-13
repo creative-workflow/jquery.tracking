@@ -97,17 +97,6 @@ storageParams:
   'src': 'organic' # default organic, if no initial url param present
   'cmp': 'organic' # default organic, if no initial url param present
 ```
-
-Channel-Event on page initialization:
-  * category: advertising
-  * action: channel
-  * label: organic
-
-Campaign-Event on page initialization:
-  * category: advertising
-  * action: campaign
-  * label: organic
-
 #### adapter
 Tracking adapters that could be loaded. You can pass you own adapter by extending the configuration:
 
@@ -141,6 +130,21 @@ Track an Conversion. For details look at the adapter:
   * [JqueryTrackingGAnalyticsAdapter](https://github.com/creative-workflow/jquery.tracking/blob/master/src/adapter/jquery.tracking.ganalytics.coffee)
   * [JqueryTrackingGTagmanagerAdapter](https://github.com/creative-workflow/jquery.tracking/blob/master/src/adapter/jquery.tracking.gtagmanager.coffee)
   * [JqueryTrackingFacebookAdapter](https://github.com/creative-workflow/jquery.tracking/blob/master/src/adapter/jquery.tracking.facebook.coffee)
+
+#### $.tracking.triggerChannelEvent()
+  Tracks an channel event based on stored channel:
+
+  * category: advertising
+  * action: channel
+  * label: organic
+
+#### $.tracking.triggerCampaignEvent()
+  Tracks an campaign event based on stored campaign:
+
+    * category: advertising
+    * action: campaign
+    * label: organic
+
 
 ### Variables
 #### $.tracking.channel
@@ -178,6 +182,10 @@ Read the advertising campaign.
   [Tom Hanoldt](https://www.tomhanoldt.info)
 
 ## Changelog
+### 1.0.4
+  * dont auto track channel and campaign
+  * added `triggerChannelEvent` and `triggerCampaignEvent`
+
 ### 1.0.3
   * add new adapter JqueryTrackingFacebookAdapter and JqueryTrackingGTagmanagerAdapter
   * remove per trackBounceIntervalSeconds default

@@ -89,10 +89,14 @@ class @JqueryTracking
 
   setChannel: (name) =>
     @channel = name
+
+  triggerChannelEvent: =>
     @event('advertising', 'channel', @channel)
 
   setCampaign: (name) =>
     @campaign = name
+
+  triggerCampaignEvent: =>
     @event('advertising', 'campaign', @campaign)
 
   storeParams: =>
@@ -125,7 +129,7 @@ if typeof jQuery != 'undefined'
   $        = jQuery
   $.extend tracking: (args...)->
     return instance.config() unless args.length
-    
+
     instance.init(args[0])
 
   #for calling instance methods directly

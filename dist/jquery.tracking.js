@@ -136,7 +136,9 @@
     function JqueryTracking(options) {
       this.restorParams = bind(this.restorParams, this);
       this.storeParams = bind(this.storeParams, this);
+      this.triggerCampaignEvent = bind(this.triggerCampaignEvent, this);
       this.setCampaign = bind(this.setCampaign, this);
+      this.triggerChannelEvent = bind(this.triggerChannelEvent, this);
       this.setChannel = bind(this.setChannel, this);
       this.conversion = bind(this.conversion, this);
       this.click = bind(this.click, this);
@@ -247,12 +249,18 @@
     };
 
     JqueryTracking.prototype.setChannel = function(name) {
-      this.channel = name;
+      return this.channel = name;
+    };
+
+    JqueryTracking.prototype.triggerChannelEvent = function() {
       return this.event('advertising', 'channel', this.channel);
     };
 
     JqueryTracking.prototype.setCampaign = function(name) {
-      this.campaign = name;
+      return this.campaign = name;
+    };
+
+    JqueryTracking.prototype.triggerCampaignEvent = function() {
       return this.event('advertising', 'campaign', this.campaign);
     };
 

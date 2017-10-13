@@ -22,4 +22,4 @@ class @JqueryTrackingGAnalyticsAdapter
     @trackEvent('button', 'click', source)
 
   trackConversion: () =>
-    @trackEvent('advertsing', 'conversion')
+    @trackEvent('advertising', 'conversion')

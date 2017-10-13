@@ -1,5 +1,6 @@
 # see: https://productforums.google.com/forum/#!topic/tag-manager/EdC7TVyaCMw
 # https://zadroweb.com/gtm-data-layer-event-tracking-guide/
+# https://docs.elevio.help/en/articles/14460-using-google-analytics-through-google-tag-manager
 
 # $.tracking(
 #   adapter: [
@@ -26,4 +27,4 @@ class @JqueryTrackingGTagmanagerAdapter
     @trackEvent('button', 'click', source)
 
   trackConversion: () =>
-    @trackEvent('advertsing', 'conversion')
+    @trackEvent('advertising', 'conversion')

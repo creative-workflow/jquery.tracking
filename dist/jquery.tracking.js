@@ -25,7 +25,7 @@
     };
 
     JqueryTrackingGAnalyticsAdapter.prototype.trackConversion = function() {
-      return this.trackEvent('advertising', 'conversion');
+      return this.trackEvent('advertising', 'conversion', 'conversion', 1);
     };
 
     return JqueryTrackingGAnalyticsAdapter;
@@ -56,7 +56,7 @@
     };
 
     JqueryTrackingGTagmanagerAdapter.prototype.trackConversion = function() {
-      return this.trackEvent('advertising', 'conversion');
+      return this.trackEvent('advertising', 'conversion', 'conversion', 1);
     };
 
     return JqueryTrackingGTagmanagerAdapter;

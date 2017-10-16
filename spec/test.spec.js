@@ -2,6 +2,29 @@
   describe('jquery.tracking', function() {
     var $;
     $ = jQuery;
+    $.tracking({
+      sessionLifeTimeDays: 1,
+      cookiePrefix: 'tracking_',
+      cookiePath: '.example.com',
+      sourceParamName: 'src',
+      campaignParamName: 'cmp',
+      storageParams: {
+        'src': 'organic',
+        'cmp': 'organic'
+      },
+      adapter: [
+        {
+          "class": 'JqueryTrackingGAnalyticsAdapter'
+        }
+      ]
+    });
+    describe("controller", function() {
+      return describe("channel", function() {
+        return it('is accessible', function() {
+          return expect($.tracking.channel()).toBe('organic');
+        });
+      });
+    });
     describe("configuration", function() {
       describe("trackBounceIntervalSeconds", function() {
         return it('can be changed', function() {
@@ -14,12 +37,14 @@
         });
       });
       return describe("adapter", function() {
-        it('has a default adapter', function() {
-          return expect($.tracking().adapter).toContain({
-            "class": 'JqueryTrackingGAnalyticsAdapter'
-          });
-        });
         return it('can be overridden', function() {
+          $.tracking({
+            adapter: [
+              {
+                "class": 'JqueryTrackingGAnalyticsAdapter'
+              }
+            ]
+          });
           expect($.tracking().adapter).toContain({
             "class": 'JqueryTrackingGAnalyticsAdapter'
           });
@@ -67,13 +92,13 @@
               channelName: 'fb'
             }, $.tracking.instance);
             it("doesnt call _trackConversion if channel is unequal fb", function() {
-              $.tracking.setChannel('not fb');
+              $.tracking.channel('not fb');
               spyOn(adapter, "_trackConversion").and.callThrough();
               adapter.trackConversion();
               return expect(adapter._trackConversion).not.toHaveBeenCalled();
             });
             return it("calls _trackConversion if channel equals fb", function() {
-              $.tracking.setChannel('fb');
+              $.tracking.channel('fb');
               spyOn(adapter, "_trackConversion").and.callThrough();
               adapter.trackConversion();
               return expect(adapter._trackConversion).toHaveBeenCalled();
@@ -87,15 +112,25 @@
       describe("callAdapters", function() {
         return it("calls the trackConversion method on all adapter", function() {
           var options;
-          options = $.tracking.instance.constructor.options;
-          options['adapter'] = [
-            {
-              "class": 'JqueryTrackingGTagmanagerAdapter'
-            }, {
-              "class": 'JqueryTrackingFacebookAdapter',
-              channelName: 'fb'
-            }
-          ];
+          options = {
+            sessionLifeTimeDays: 1,
+            cookiePrefix: 'tracking_',
+            cookiePath: '.example.com',
+            sourceParamName: 'src',
+            campaignParamName: 'cmp',
+            storageParams: {
+              'src': 'organic',
+              'cmp': 'organic'
+            },
+            adapter: [
+              {
+                "class": 'JqueryTrackingGTagmanagerAdapter'
+              }, {
+                "class": 'JqueryTrackingFacebookAdapter',
+                channelName: 'fb'
+              }
+            ]
+          };
           $.tracking(options);
           spyOn($.tracking.instance.adapter[0], "trackConversion").and.callThrough();
           spyOn($.tracking.instance.adapter[1], "trackConversion").and.callThrough();
@@ -105,8 +140,24 @@
         });
       });
       describe("not in debug mode", function() {
-        var oneAdapter;
-        $.tracking($.tracking.instance.constructor.options);
+        var oneAdapter, options;
+        options = {
+          sessionLifeTimeDays: 1,
+          cookiePrefix: 'tracking_',
+          cookiePath: '.example.com',
+          sourceParamName: 'src',
+          campaignParamName: 'cmp',
+          storageParams: {
+            'src': 'organic',
+            'cmp': 'organic'
+          },
+          adapter: [
+            {
+              "class": 'JqueryTrackingGTagmanagerAdapter'
+            }
+          ]
+        };
+        $.tracking(options);
         oneAdapter = $.tracking.adapter[0];
         describe('event', function() {
           return it("calls adapters trackEvent method", function() {

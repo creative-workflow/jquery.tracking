@@ -9,20 +9,14 @@ class @JqueryTracking
     cookiePath:        '.example.com'
     sourceParamName:   'src'
     campaignParamName: 'cmp'
-    storageParams:
-      'src': 'organic' #source
-      'cmp': 'organic' #campaign
-    adapter: [
-      {
-        class: 'JqueryTrackingGAnalyticsAdapter'
-      }
-    ]
+    storageParams: {}
+    adapter: []
 
   constructor: (options)->
     @adapter = []
     @memory   = []
-    @channel  = ''
-    @campaign = ''
+    @_channel  = ''
+    @_campaign = ''
     @options  = @constructor.options
 
   init: (options) ->
@@ -87,17 +81,19 @@ class @JqueryTracking
   conversion: () =>
     @callAdapters('trackConversion')
 
-  setChannel: (name) =>
-    @channel = name
+  channel: (name) =>
+    return @_channel unless name
+    @_channel = name
 
   triggerChannelEvent: =>
-    @event('advertising', 'channel', @channel)
+    @event('advertising', 'channel', @_channel)
 
-  setCampaign: (name) =>
-    @campaign = name
+  campaign: (name) =>
+    return @_campaign unless name
+    @_campaign = name
 
   triggerCampaignEvent: =>
-    @event('advertising', 'campaign', @campaign)
+    @event('advertising', 'campaign', @_campaign)
 
   storeParams: =>
     jQuery.each @options.storageParams, (param, fallback) =>
@@ -119,8 +115,8 @@ class @JqueryTracking
       value = Cookies.get("#{@options.cookiePrefix}#{param}") || fallback
       if value
         switch param
-          when @options.sourceParamName   then @setChannel(value)
-          when @options.campaignParamName then @setCampaign(value)
+          when @options.sourceParamName   then @channel(value)
+          when @options.campaignParamName then @campaign(value)
           else @event('parameter', param, value)
 
 

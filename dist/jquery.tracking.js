@@ -25,7 +25,7 @@
     };
 
     JqueryTrackingGAnalyticsAdapter.prototype.trackConversion = function() {
-      return this.trackEvent('advertsing', 'conversion');
+      return this.trackEvent('advertising', 'conversion');
     };
 
     return JqueryTrackingGAnalyticsAdapter;
@@ -56,7 +56,7 @@
     };
 
     JqueryTrackingGTagmanagerAdapter.prototype.trackConversion = function() {
-      return this.trackEvent('advertsing', 'conversion');
+      return this.trackEvent('advertising', 'conversion');
     };
 
     return JqueryTrackingGTagmanagerAdapter;
@@ -90,8 +90,8 @@
     };
 
     JqueryTrackingFacebookAdapter.prototype.trackConversion = function() {
-      console.log(this.controller.channel, '==', this.options.channelName);
-      if (this.controller.channel !== this.options.channelName) {
+      console.log(this.controller.channel(), '==', this.options.channelName);
+      if (this.controller.channel() !== this.options.channelName) {
         return;
       }
       if (!this.available()) {
@@ -122,24 +122,17 @@
       cookiePath: '.example.com',
       sourceParamName: 'src',
       campaignParamName: 'cmp',
-      storageParams: {
-        'src': 'organic',
-        'cmp': 'organic'
-      },
-      adapter: [
-        {
-          "class": 'JqueryTrackingGAnalyticsAdapter'
-        }
-      ]
+      storageParams: {},
+      adapter: []
     };
 
     function JqueryTracking(options) {
       this.restorParams = bind(this.restorParams, this);
       this.storeParams = bind(this.storeParams, this);
       this.triggerCampaignEvent = bind(this.triggerCampaignEvent, this);
-      this.setCampaign = bind(this.setCampaign, this);
+      this.campaign = bind(this.campaign, this);
       this.triggerChannelEvent = bind(this.triggerChannelEvent, this);
-      this.setChannel = bind(this.setChannel, this);
+      this.channel = bind(this.channel, this);
       this.conversion = bind(this.conversion, this);
       this.click = bind(this.click, this);
       this.event = bind(this.event, this);
@@ -151,8 +144,8 @@
       this.config = bind(this.config, this);
       this.adapter = [];
       this.memory = [];
-      this.channel = '';
-      this.campaign = '';
+      this._channel = '';
+      this._campaign = '';
       this.options = this.constructor.options;
     }
 
@@ -248,20 +241,26 @@
       return this.callAdapters('trackConversion');
     };
 
-    JqueryTracking.prototype.setChannel = function(name) {
-      return this.channel = name;
+    JqueryTracking.prototype.channel = function(name) {
+      if (!name) {
+        return this._channel;
+      }
+      return this._channel = name;
     };
 
     JqueryTracking.prototype.triggerChannelEvent = function() {
-      return this.event('advertising', 'channel', this.channel);
+      return this.event('advertising', 'channel', this._channel);
     };
 
-    JqueryTracking.prototype.setCampaign = function(name) {
-      return this.campaign = name;
+    JqueryTracking.prototype.campaign = function(name) {
+      if (!name) {
+        return this._campaign;
+      }
+      return this._campaign = name;
     };
 
     JqueryTracking.prototype.triggerCampaignEvent = function() {
-      return this.event('advertising', 'campaign', this.campaign);
+      return this.event('advertising', 'campaign', this._campaign);
     };
 
     JqueryTracking.prototype.storeParams = function() {
@@ -289,9 +288,9 @@
           if (value) {
             switch (param) {
               case _this.options.sourceParamName:
-                return _this.setChannel(value);
+                return _this.channel(value);
               case _this.options.campaignParamName:
-                return _this.setCampaign(value);
+                return _this.campaign(value);
               default:
                 return _this.event('parameter', param, value);
             }

@@ -109,7 +109,7 @@ Tracking adapters that could be loaded. You can pass you own adapter by extendin
       },
       {
         class: 'JqueryTrackingFacebookAdapter'
-        channelName: 'fb'                       # -> for trackConversion
+        channelName: 'fb'                       # -> for trackConversion, should equal
 
       }
     ]
@@ -124,6 +124,11 @@ Track a click event. The source can be used to indicate what link was clicked.
 #### $.tracking.event(category, action, label, value)
 Track an event. [Read more](developers.google.com/analytics/devguides/collection/analyticsjs/events)
 
+#### $.tracking.channel(name)
+Return the detected channel if name undefined, sets channel otherwise.
+
+#### $.tracking.campaign(name)
+Return the detected campaign if name undefined, sets campaign otherwise.
 
 #### $.tracking.conversion()
 Track an Conversion. For details look at the adapter:
@@ -182,6 +187,13 @@ Read the advertising campaign.
   [Tom Hanoldt](https://www.tomhanoldt.info)
 
 ## Changelog
+### 1.0.5
+  * remove default adapter and storage params
+  * rename `setChannel(name)` to `channel(name)`
+  * rename `setCampaign(name)` to `campaign(name)`
+  * add getter mthod for `channel()`
+  * add getter mthod for `campaign()`
+
 ### 1.0.4
   * dont auto track channel and campaign
   * added `triggerChannelEvent` and `triggerCampaignEvent`

@@ -1,6 +1,27 @@
 
 describe 'jquery.tracking', ->
   $ = jQuery
+  $.tracking(
+    sessionLifeTimeDays: 1 #sync with google analytics session lifetime
+    cookiePrefix:      'tracking_'
+    cookiePath:        '.example.com'
+    sourceParamName:   'src'
+    campaignParamName: 'cmp'
+    storageParams: {
+      'src': 'organic'
+      'cmp': 'organic'
+    }
+    adapter: [
+      {
+        class: 'JqueryTrackingGAnalyticsAdapter'
+      }
+    ]
+  )
+
+  describe "controller", ->
+    describe "channel", ->
+      it 'is accessible', ->
+        expect($.tracking.channel()).toBe('organic')
 
   describe "configuration", ->
     describe "trackBounceIntervalSeconds", ->
@@ -15,12 +36,15 @@ describe 'jquery.tracking', ->
         expect($.tracking().trackBounceIntervalSeconds).toBe(42)
 
     describe "adapter", ->
-      it 'has a default adapter', ->
-        expect($.tracking().adapter).toContain(
-          class: 'JqueryTrackingGAnalyticsAdapter'
+      it 'can be overridden', ->
+        $.tracking(
+          adapter: [
+            {
+              class: 'JqueryTrackingGAnalyticsAdapter'
+            }
+          ]
         )
 
-      it 'can be overridden', ->
         expect($.tracking().adapter).toContain(
           class: 'JqueryTrackingGAnalyticsAdapter'
         )
@@ -63,21 +87,21 @@ describe 'jquery.tracking', ->
         describe "trackConversion", ->
           window['fbq'] = ->
             null
-            
+
           adapter = new window['JqueryTrackingFacebookAdapter']({
             class: 'JqueryTrackingFacebookAdapter'
             channelName: 'fb'
           }, $.tracking.instance)
 
           it "doesnt call _trackConversion if channel is unequal fb", ->
-            $.tracking.setChannel('not fb')
+            $.tracking.channel('not fb')
 
             spyOn(adapter, "_trackConversion").and.callThrough()
             adapter.trackConversion()
             expect(adapter._trackConversion).not.toHaveBeenCalled()
 
           it "calls _trackConversion if channel equals fb", ->
-            $.tracking.setChannel('fb')
+            $.tracking.channel('fb')
 
             spyOn(adapter, "_trackConversion").and.callThrough()
             adapter.trackConversion()
@@ -86,16 +110,26 @@ describe 'jquery.tracking', ->
   describe "controller", ->
     describe "callAdapters", ->
       it "calls the trackConversion method on all adapter", ->
-        options = $.tracking.instance.constructor.options
-        options['adapter'] = [
-          {
-            class: 'JqueryTrackingGTagmanagerAdapter'
-          },
-          {
-            class: 'JqueryTrackingFacebookAdapter'
-            channelName: 'fb'
+        options = {
+          sessionLifeTimeDays: 1 #sync with google analytics session lifetime
+          cookiePrefix:      'tracking_'
+          cookiePath:        '.example.com'
+          sourceParamName:   'src'
+          campaignParamName: 'cmp'
+          storageParams: {
+            'src': 'organic'
+            'cmp': 'organic'
           }
-        ]
+          adapter: [
+              {
+                class: 'JqueryTrackingGTagmanagerAdapter'
+              },
+              {
+                class: 'JqueryTrackingFacebookAdapter'
+                channelName: 'fb'
+              }
+          ]
+        }
 
         $.tracking(options) # set configuration
 
@@ -109,7 +143,24 @@ describe 'jquery.tracking', ->
 
 
     describe "not in debug mode", ->
-      $.tracking($.tracking.instance.constructor.options) # reset configuration
+      options = {
+        sessionLifeTimeDays: 1 #sync with google analytics session lifetime
+        cookiePrefix:      'tracking_'
+        cookiePath:        '.example.com'
+        sourceParamName:   'src'
+        campaignParamName: 'cmp'
+        storageParams: {
+          'src': 'organic'
+          'cmp': 'organic'
+        }
+        adapter: [
+          {
+            class: 'JqueryTrackingGTagmanagerAdapter'
+          }
+        ]
+      }
+
+      $.tracking(options) # reset configuration
       oneAdapter = $.tracking.adapter[0]
 
       describe 'event', ->

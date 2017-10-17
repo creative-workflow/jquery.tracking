@@ -107,6 +107,31 @@ describe 'jquery.tracking', ->
             adapter.trackConversion()
             expect(adapter._trackConversion).toHaveBeenCalled()
 
+          it "calls _trackConversion if no channelName isset", ->
+            $.tracking.channel('fb')
+
+            _adapter = new window['JqueryTrackingFacebookAdapter']({
+              class: 'JqueryTrackingFacebookAdapter'
+            }, $.tracking.instance)
+
+            spyOn(_adapter, "_trackConversion").and.callThrough()
+            _adapter.trackConversion()
+            expect(_adapter._trackConversion).toHaveBeenCalled()
+
+          it "doesnt calls _trackConversion if doNotTrackConversion isset", ->
+            $.tracking.channel('fb')
+
+            _adapter = new window['JqueryTrackingFacebookAdapter']({
+              class: 'JqueryTrackingFacebookAdapter'
+              doNotTrackConversion: 'any'
+              channelName: 'fb'
+            }, $.tracking.instance)
+
+            spyOn(_adapter, "_trackConversion").and.callThrough()
+            _adapter.trackConversion()
+            expect(_adapter._trackConversion).not.toHaveBeenCalled()
+
+
   describe "controller", ->
     describe "callAdapters", ->
       it "calls the trackConversion method on all adapter", ->

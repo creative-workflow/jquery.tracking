@@ -4,6 +4,7 @@
 #   adapter: [
 #       {
 #         class: 'JqueryTrackingFacebookAdapter'
+#         doNotTrackConversion: 'any'
 #         channelName: 'fb'                       # -> for trackConversion
 #       }
 #     ]
@@ -25,13 +26,16 @@ class @JqueryTrackingFacebookAdapter
     @trackEvent('button', 'click', source)
 
   trackConversion: =>
-    console.log @controller.channel(), '==', @options.channelName
-    return unless @controller.channel() == @options.channelName
+    return if @options.doNotTrackConversion?
+
+    if @options.channelName?
+      return unless @controller.channel() == @options.channelName
+
     return unless @available()
     @_trackConversion()
 
   _trackConversion: ->
-    fbq('track', 'Lead')
+    window.fbq('track', 'Lead')
 
   available: =>
     unless window.fbq?

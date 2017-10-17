@@ -97,11 +97,33 @@
               adapter.trackConversion();
               return expect(adapter._trackConversion).not.toHaveBeenCalled();
             });
-            return it("calls _trackConversion if channel equals fb", function() {
+            it("calls _trackConversion if channel equals fb", function() {
               $.tracking.channel('fb');
               spyOn(adapter, "_trackConversion").and.callThrough();
               adapter.trackConversion();
               return expect(adapter._trackConversion).toHaveBeenCalled();
+            });
+            it("calls _trackConversion if no channelName isset", function() {
+              var _adapter;
+              $.tracking.channel('fb');
+              _adapter = new window['JqueryTrackingFacebookAdapter']({
+                "class": 'JqueryTrackingFacebookAdapter'
+              }, $.tracking.instance);
+              spyOn(_adapter, "_trackConversion").and.callThrough();
+              _adapter.trackConversion();
+              return expect(_adapter._trackConversion).toHaveBeenCalled();
+            });
+            return it("doesnt calls _trackConversion if doNotTrackConversion isset", function() {
+              var _adapter;
+              $.tracking.channel('fb');
+              _adapter = new window['JqueryTrackingFacebookAdapter']({
+                "class": 'JqueryTrackingFacebookAdapter',
+                doNotTrackConversion: 'any',
+                channelName: 'fb'
+              }, $.tracking.instance);
+              spyOn(_adapter, "_trackConversion").and.callThrough();
+              _adapter.trackConversion();
+              return expect(_adapter._trackConversion).not.toHaveBeenCalled();
             });
           });
         }));

@@ -187,9 +187,12 @@ Read the advertising campaign.
   [Tom Hanoldt](https://www.tomhanoldt.info)
 
 ## Changelog
+### 1.0.7
+  * make grunt-includes compatible with gulp-inlcude, no code affected
+
 ### 1.0.6
   * add `doNotTrackConversion` to facebook adapter
-  
+
 ### 1.0.5
   * remove default adapter and storage params
   * rename `setChannel(name)` to `channel(name)`

@@ -25,6 +25,10 @@
     };
 
     JqueryTrackingGAnalyticsAdapter.prototype.trackConversion = function() {
+      var ref;
+      if ((ref = this.options) != null ? ref.doNotTrackConversion : void 0) {
+        return;
+      }
       return this.trackEvent('advertising', 'conversion', 'conversion', 1);
     };
 
@@ -56,6 +60,10 @@
     };
 
     JqueryTrackingGTagmanagerAdapter.prototype.trackConversion = function() {
+      var ref;
+      if ((ref = this.options) != null ? ref.doNotTrackConversion : void 0) {
+        return;
+      }
       return this.trackEvent('advertising', 'conversion', 'conversion', 1);
     };
 
@@ -90,7 +98,8 @@
     };
 
     JqueryTrackingFacebookAdapter.prototype.trackConversion = function() {
-      if (this.options.doNotTrackConversion != null) {
+      var ref;
+      if ((ref = this.options) != null ? ref.doNotTrackConversion : void 0) {
         return;
       }
       if (this.options.channelName != null) {
@@ -116,6 +125,38 @@
     };
 
     return JqueryTrackingFacebookAdapter;
+
+  })();
+
+  this.JqueryTrackingGHelper = (function() {
+    function JqueryTrackingGHelper() {}
+
+    JqueryTrackingGHelper.getClientId = function(callback, fallback) {
+      if (fallback == null) {
+        fallback = null;
+      }
+      if (typeof ga !== 'undefined') {
+        return ga(tracker)(function() {
+          return callback(tracker.get('clientId'));
+        });
+      } else {
+        return callback(fallback);
+      }
+    };
+
+    JqueryTrackingGHelper.doGclidMatching = function(channel) {
+      var possibleValue;
+      if (channel == null) {
+        channel = 'paid_search';
+      }
+      possibleValue = url("?gclid");
+      if (possibleValue) {
+        $.tracking.channel(channel);
+        return $.tracking.campaign(possibleValue);
+      }
+    };
+
+    return JqueryTrackingGHelper;
 
   })();
 

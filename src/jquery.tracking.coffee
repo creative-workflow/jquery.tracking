@@ -1,6 +1,7 @@
 include "adapter/jquery.tracking.ganalytics.coffee"
 include "adapter/jquery.tracking.gtagmanager.coffee"
 include "adapter/jquery.tracking.facebook.coffee"
+include "jquery.tracking.ghelper.coffee"
 
 class @JqueryTracking
   @options =

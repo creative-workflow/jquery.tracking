@@ -158,6 +158,13 @@ Read the advertising channel.
 #### $.tracking.campaign
 Read the advertising campaign.
 
+### JqueryTrackingGHelper
+#### JqueryTrackingGHelper.getClientId(callback, fallback = null)
+  Calls the callback method with the google analytics anonymous id or fallback value.
+
+#### JqueryTrackingGHelper.doGclidMatching(channel = 'paid_search')
+  Sets channel to 'paid_search' and campaign to gclid value if passed as get param.
+
 ### Dependencies
   * [jquery](https://jquery.com)
   * [juery.debug](https://github.com/creative-workflow/jquery.debug)
@@ -187,9 +194,13 @@ Read the advertising campaign.
   [Tom Hanoldt](https://www.tomhanoldt.info)
 
 ## Changelog
+### 1.0.7
+  * add `doNotTrackConversion` to all adapter
+  * introduce `JqueryTrackingGHelper` and add `getClientId` and `doGclidMatching`
+
 ### 1.0.6
   * add `doNotTrackConversion` to facebook adapter
-  
+
 ### 1.0.5
   * remove default adapter and storage params
   * rename `setChannel(name)` to `channel(name)`

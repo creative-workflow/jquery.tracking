@@ -6,6 +6,7 @@
 #   adapter: [
 #       {
 #         class: 'JqueryTrackingGTagmanagerAdapter'
+#         doNotTrackConversion: 'any'
 #       }
 #     ]
 #   )
@@ -27,4 +28,6 @@ class @JqueryTrackingGTagmanagerAdapter
     @trackEvent('button', 'click', source)
 
   trackConversion: () =>
+    return if @options?.doNotTrackConversion
+
     @trackEvent('advertising', 'conversion', 'conversion', 1)

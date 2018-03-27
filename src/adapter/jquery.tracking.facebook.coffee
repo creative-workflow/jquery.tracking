@@ -26,7 +26,7 @@ class @JqueryTrackingFacebookAdapter
     @trackEvent('button', 'click', source)
 
   trackConversion: =>
-    return if @options.doNotTrackConversion?
+    return if @options?.doNotTrackConversion
 
     if @options.channelName?
       return unless @controller.channel() == @options.channelName

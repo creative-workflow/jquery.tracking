@@ -4,6 +4,7 @@
 #   adapter: [
 #       {
 #         class: 'JqueryTrackingGAnalyticsAdapter'
+#         doNotTrackConversion: 'any'
 #       }
 #     ]
 #   )
@@ -22,4 +23,6 @@ class @JqueryTrackingGAnalyticsAdapter
     @trackEvent('button', 'click', source)
 
   trackConversion: () =>
+    return if @options?.doNotTrackConversion
+
     @trackEvent('advertising', 'conversion', 'conversion', 1)

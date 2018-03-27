@@ -10,6 +10,7 @@ module.exports = (grunt) ->
         flatten: true
         cwd: '.'
         options:
+          includeRegexp: /^(\s*)#=\s*include\s+(\S+)\s*$/
           silent: true
           banner: '# <% includes.files.dest %>'
     coffee:

@@ -194,9 +194,12 @@ Read the advertising campaign.
   [Tom Hanoldt](https://www.tomhanoldt.info)
 
 ## Changelog
-### 1.0.7
+### 1.0.8
   * add `doNotTrackConversion` to all adapter
   * introduce `JqueryTrackingGHelper` and add `getClientId` and `doGclidMatching`
+
+### 1.0.7
+  * make grunt-includes compatible with gulp-inlcude, no code affected
 
 ### 1.0.6
   * add `doNotTrackConversion` to facebook adapter

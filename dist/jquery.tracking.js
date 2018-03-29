@@ -136,7 +136,7 @@
         fallback = null;
       }
       if (typeof ga !== 'undefined') {
-        return ga(tracker)(function() {
+        return ga(function(tracker) {
           return callback(tracker.get('clientId'));
         });
       } else {

@@ -194,6 +194,9 @@ Read the advertising campaign.
   [Tom Hanoldt](https://www.tomhanoldt.info)
 
 ## Changelog
+### 1.0.9
+  * fix typo in `getClientId`
+  
 ### 1.0.8
   * add `doNotTrackConversion` to all adapter
   * introduce `JqueryTrackingGHelper` and add `getClientId` and `doGclidMatching`

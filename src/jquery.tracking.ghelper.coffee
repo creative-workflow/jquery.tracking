@@ -2,8 +2,9 @@
 class @JqueryTrackingGHelper
   @getClientId = (callback, fallback = null) ->
     if typeof ga != 'undefined'
-      ga(tracker) ->
+      ga( (tracker) ->
         callback(tracker.get('clientId'))
+      )
     else
       callback(fallback)
 

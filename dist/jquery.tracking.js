@@ -24,12 +24,15 @@
       return this.trackEvent('button', 'click', source);
     };
 
-    JqueryTrackingGAnalyticsAdapter.prototype.trackConversion = function() {
+    JqueryTrackingGAnalyticsAdapter.prototype.trackConversion = function(adapterData) {
       var ref;
+      if (adapterData == null) {
+        adapterData = {};
+      }
       if ((ref = this.options) != null ? ref.doNotTrackConversion : void 0) {
         return;
       }
-      return this.trackEvent('advertising', 'conversion', 'conversion', 1);
+      return this.trackEvent(adapterData.eventCategory || 'advertising', adapterData.eventAction || 'conversion', adapterData.eventLabel || 'conversion', adapterData.eventValue || 1);
     };
 
     return JqueryTrackingGAnalyticsAdapter;
@@ -59,12 +62,15 @@
       return this.trackEvent('button', 'click', source);
     };
 
-    JqueryTrackingGTagmanagerAdapter.prototype.trackConversion = function() {
+    JqueryTrackingGTagmanagerAdapter.prototype.trackConversion = function(adapterData) {
       var ref;
+      if (adapterData == null) {
+        adapterData = {};
+      }
       if ((ref = this.options) != null ? ref.doNotTrackConversion : void 0) {
         return;
       }
-      return this.trackEvent('advertising', 'conversion', 'conversion', 1);
+      return this.trackEvent(adapterData.eventCategory || 'advertising', adapterData.eventAction || 'conversion', adapterData.eventLabel || 'conversion', adapterData.eventValue || 1);
     };
 
     return JqueryTrackingGTagmanagerAdapter;
@@ -97,7 +103,7 @@
       return this.trackEvent('button', 'click', source);
     };
 
-    JqueryTrackingFacebookAdapter.prototype.trackConversion = function() {
+    JqueryTrackingFacebookAdapter.prototype.trackConversion = function(adapterData) {
       var ref;
       if ((ref = this.options) != null ? ref.doNotTrackConversion : void 0) {
         return;
@@ -110,11 +116,11 @@
       if (!this.available()) {
         return;
       }
-      return this._trackConversion();
+      return this._trackConversion(adapterData);
     };
 
-    JqueryTrackingFacebookAdapter.prototype._trackConversion = function() {
-      return window.fbq('track', 'Lead');
+    JqueryTrackingFacebookAdapter.prototype._trackConversion = function(adapterData) {
+      return window.fbq('track', 'Lead', adapterData);
     };
 
     JqueryTrackingFacebookAdapter.prototype.available = function() {
@@ -282,8 +288,22 @@
       return this.callAdapters('trackClick', source);
     };
 
-    JqueryTracking.prototype.conversion = function() {
-      return this.callAdapters('trackConversion');
+    JqueryTracking.prototype.conversion = function(adapterData) {
+      if (adapterData == null) {
+        adapterData = {};
+      }
+      return jQuery.each(this.adapter, (function(_this) {
+        return function(index, adapter) {
+          var currentAdapterData;
+          if (adapterData[adapter.options["class"]]) {
+            currentAdapterData = adapterData[adapter.options["class"]];
+          } else {
+            currentAdapterData = null;
+          }
+          _this.debug(adapter.options["class"] + "::trackConversion", currentAdapterData);
+          return adapter.trackConversion(currentAdapterData);
+        };
+      })(this));
     };
 
     JqueryTracking.prototype.channel = function(name) {

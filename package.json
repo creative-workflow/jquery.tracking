@@ -1,6 +1,6 @@
 {
   "name": "jquery.tracking",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "This module helps to handle tracking clicks and events with google analytics, tagmanager and facebook.",
   "main": "dist/jquery.tracking.js",
   "repository": {

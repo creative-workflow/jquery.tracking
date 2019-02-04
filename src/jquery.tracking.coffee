@@ -79,8 +79,15 @@ class @JqueryTracking
   click: (source) =>
     @callAdapters('trackClick', source)
 
-  conversion: () =>
-    @callAdapters('trackConversion')
+  conversion: (adapterData = {}) =>
+    jQuery.each @adapter, (index, adapter) =>
+      if adapterData[adapter.options.class]
+        currentAdapterData = adapterData[adapter.options.class]
+      else
+        currentAdapterData = null
+
+      @debug("#{adapter.options.class}::trackConversion", currentAdapterData)
+      adapter.trackConversion(currentAdapterData)
 
   channel: (name) =>
     return @_channel unless name

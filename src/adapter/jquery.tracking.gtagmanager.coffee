@@ -27,7 +27,10 @@ class @JqueryTrackingGTagmanagerAdapter
   trackClick: (source) =>
     @trackEvent('button', 'click', source)
 
-  trackConversion: () =>
+  trackConversion: (adapterData = {}) =>
     return if @options?.doNotTrackConversion
 
-    @trackEvent('advertising', 'conversion', 'conversion', 1)
+    @trackEvent(adapterData.eventCategory || 'advertising',
+                adapterData.eventAction   || 'conversion',
+                adapterData.eventLabel    || 'conversion',
+                adapterData.eventValue    || 1)
